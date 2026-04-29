@@ -1,3 +1,116 @@
+// ========== NETWORK MESH ANIMATION ==========
+class NetworkMesh {
+    constructor() {
+        this.canvas = document.getElementById('networkCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.connectionDistance = 150;
+        this.particleCount = 60;
+
+        this.setupCanvas();
+        this.createParticles();
+        this.animate();
+
+        window.addEventListener('resize', () => this.setupCanvas());
+    }
+
+    setupCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.ctx.fillStyle = '#0a1628';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    createParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 3 + 2,
+                color: this.getRandomColor()
+            });
+        }
+    }
+
+    getRandomColor() {
+        const colors = ['#9c27b0', '#7c4dff', '#651fff', '#2196f3', '#1976d2', '#ffffff'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    distance(p1, p2) {
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    animate() {
+        this.ctx.fillStyle = 'rgba(10, 22, 40, 0.05)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Update and draw particles
+        for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Bounce off walls
+            if (p.x - p.radius < 0 || p.x + p.radius > this.canvas.width) p.vx *= -1;
+            if (p.y - p.radius < 0 || p.y + p.radius > this.canvas.height) p.vy *= -1;
+
+            // Keep in bounds
+            p.x = Math.max(p.radius, Math.min(this.canvas.width - p.radius, p.x));
+            p.y = Math.max(p.radius, Math.min(this.canvas.height - p.radius, p.y));
+
+            // Draw particle
+            this.ctx.fillStyle = p.color;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.shadowColor = p.color;
+            this.ctx.shadowBlur = 10;
+        }
+
+        // Draw connections
+        for (let i = 0; i < this.particles.length; i++) {
+            for (let j = i + 1; j < this.particles.length; j++) {
+                const dist = this.distance(this.particles[i], this.particles[j]);
+
+                if (dist < this.connectionDistance) {
+                    const opacity = 1 - (dist / this.connectionDistance);
+                    const p1 = this.particles[i];
+                    const p2 = this.particles[j];
+
+                    // Create gradient between two colors
+                    const gradient = this.ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+                    gradient.addColorStop(0, p1.color);
+                    gradient.addColorStop(1, p2.color);
+
+                    this.ctx.strokeStyle = gradient;
+                    this.ctx.globalAlpha = opacity * 0.6;
+                    this.ctx.lineWidth = 1.5;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p1.x, p1.y);
+                    this.ctx.lineTo(p2.x, p2.y);
+                    this.ctx.stroke();
+                    this.ctx.globalAlpha = 1;
+                }
+            }
+        }
+
+        this.ctx.shadowColor = 'transparent';
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Initialize network mesh when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    new NetworkMesh();
+}, { once: true });
+
 // Configure Toastr
 toastr.options = {
     closeButton: true,
