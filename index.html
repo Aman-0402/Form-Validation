@@ -3,245 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Multi-Step Form Validation</title>
+    <title>Multi-Step Form Validation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-wrapper">
-            <!-- Progress Bar -->
-            <div class="progress-container">
+    <div class="wrapper">
+        <div class="form-card">
+            <!-- Progress Indicator -->
+            <div class="progress-wrapper">
                 <div class="progress-bar">
                     <div class="progress-fill"></div>
                 </div>
-                <div class="steps-indicator">
-                    <div class="step-circle active" data-step="1">
-                        <span>1</span>
-                    </div>
-                    <div class="step-circle" data-step="2">
-                        <span>2</span>
-                    </div>
-                    <div class="step-circle" data-step="3">
-                        <span>3</span>
-                    </div>
-                    <div class="step-circle" data-step="4">
-                        <span>4</span>
-                    </div>
+                <div class="steps">
+                    <div class="step-dot active" data-step="1">1</div>
+                    <div class="step-dot" data-step="2">2</div>
+                    <div class="step-dot" data-step="3">3</div>
                 </div>
             </div>
 
-            <!-- Form Steps -->
-            <form id="multiStepForm" class="form-container">
-
-                <!-- Step 1: Personal Information -->
+            <form id="validationForm">
+                <!-- Step 1: Email & Password -->
                 <div class="form-step active" data-step="1">
-                    <h2>Personal Information</h2>
-                    <p class="step-description">Let's start with your basic details</p>
-
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
-                    </div>
+                    <h2>Create Account</h2>
 
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <div class="input-wrapper">
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        <span class="error-msg"></span>
+                        <span class="check-icon">✓</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" placeholder="Min 8 characters" required>
+                            <button type="button" class="toggle-pwd">👁</button>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="strength-bar"></div>
+                            <p class="strength-text">Password strength: <span>Weak</span></p>
+                        </div>
+                        <span class="error-msg"></span>
+                        <span class="check-icon">✓</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm">Confirm Password</label>
+                        <input type="password" id="confirm" name="confirm" placeholder="Re-enter password" required>
+                        <span class="error-msg"></span>
+                        <span class="check-icon">✓</span>
+                    </div>
+                </div>
+
+                <!-- Step 2: Personal Info -->
+                <div class="form-step" data-step="2">
+                    <h2>Personal Details</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                            <span class="error-msg"></span>
+                            <span class="check-icon">✓</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                            <span class="error-msg"></span>
+                            <span class="check-icon">✓</span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <div class="input-wrapper">
-                            <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
+                        <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890" required>
+                        <span class="error-msg"></span>
+                        <span class="check-icon">✓</span>
                     </div>
                 </div>
 
-                <!-- Step 2: Address Information -->
-                <div class="form-step" data-step="2">
-                    <h2>Address Information</h2>
-                    <p class="step-description">Where should we send your documents?</p>
-
-                    <div class="form-group">
-                        <label for="street">Street Address</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="street" name="street" placeholder="123 Main St" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="city">City</label>
-                            <div class="input-wrapper">
-                                <input type="text" id="city" name="city" placeholder="New York" required>
-                                <span class="error-message"></span>
-                                <span class="success-icon">✓</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <div class="input-wrapper">
-                                <input type="text" id="state" name="state" placeholder="NY" required>
-                                <span class="error-message"></span>
-                                <span class="success-icon">✓</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="zipCode">ZIP Code</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="zipCode" name="zipCode" placeholder="10001" required>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3: Password Setup -->
+                <!-- Step 3: Review & Submit -->
                 <div class="form-step" data-step="3">
-                    <h2>Create Password</h2>
-                    <p class="step-description">Secure your account with a strong password</p>
+                    <h2>Review Information</h2>
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                            <button type="button" class="toggle-password">👁️</button>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
+                    <div class="review-box">
+                        <div class="review-item">
+                            <span class="label">Email:</span>
+                            <span class="value" id="reviewEmail">-</span>
                         </div>
-                        <div class="password-strength">
-                            <div class="strength-bar"></div>
-                            <p class="strength-text">Password strength: <span>Weak</span></p>
+                        <div class="review-item">
+                            <span class="label">Name:</span>
+                            <span class="value" id="reviewName">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span class="label">Phone:</span>
+                            <span class="value" id="reviewPhone">-</span>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-                            <button type="button" class="toggle-password">👁️</button>
-                            <span class="error-message"></span>
-                            <span class="success-icon">✓</span>
-                        </div>
-                    </div>
-
-                    <div class="password-requirements">
-                        <p>Password must contain:</p>
-                        <div class="requirement-item" data-requirement="length">
-                            <span class="requirement-icon">○</span>
-                            <span>At least 8 characters</span>
-                        </div>
-                        <div class="requirement-item" data-requirement="uppercase">
-                            <span class="requirement-icon">○</span>
-                            <span>One uppercase letter (A-Z)</span>
-                        </div>
-                        <div class="requirement-item" data-requirement="lowercase">
-                            <span class="requirement-icon">○</span>
-                            <span>One lowercase letter (a-z)</span>
-                        </div>
-                        <div class="requirement-item" data-requirement="number">
-                            <span class="requirement-icon">○</span>
-                            <span>One number (0-9)</span>
-                        </div>
-                        <div class="requirement-item" data-requirement="special">
-                            <span class="requirement-icon">○</span>
-                            <span>One special character (!@#$%^&*)</span>
-                        </div>
-                    </div>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="agree" name="agree" required>
+                        <span>I agree to Terms & Conditions</span>
+                    </label>
                 </div>
 
-                <!-- Step 4: Review & Confirmation -->
-                <div class="form-step" data-step="4">
-                    <h2>Review Your Information</h2>
-                    <p class="step-description">Please verify all details before submitting</p>
-
-                    <div class="review-section">
-                        <div class="review-group">
-                            <h3>Personal Information</h3>
-                            <div class="review-item">
-                                <span class="review-label">Full Name:</span>
-                                <span class="review-value" id="reviewName">-</span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Email:</span>
-                                <span class="review-value" id="reviewEmail">-</span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Phone:</span>
-                                <span class="review-value" id="reviewPhone">-</span>
-                            </div>
-                        </div>
-
-                        <div class="review-group">
-                            <h3>Address Information</h3>
-                            <div class="review-item">
-                                <span class="review-label">Street:</span>
-                                <span class="review-value" id="reviewStreet">-</span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">City, State ZIP:</span>
-                                <span class="review-value" id="reviewCityState">-</span>
-                            </div>
-                        </div>
-
-                        <div class="review-group">
-                            <h3>Account Security</h3>
-                            <div class="review-item">
-                                <span class="review-label">Password:</span>
-                                <span class="review-value">••••••••</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="agreement-section">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-                            <span>I agree to the Terms & Conditions and Privacy Policy</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Navigation Buttons -->
-                <div class="form-navigation">
-                    <button type="button" id="prevBtn" class="btn btn-secondary">← Previous</button>
+                <!-- Button Controls -->
+                <div class="button-group">
+                    <button type="button" id="prevBtn" class="btn btn-secondary">← Back</button>
                     <button type="button" id="nextBtn" class="btn btn-primary">Next →</button>
                     <button type="submit" id="submitBtn" class="btn btn-success">Submit ✓</button>
                 </div>
             </form>
 
             <!-- Success Message -->
-            <div class="success-message-box" id="successBox">
-                <div class="success-animation">
-                    <div class="success-checkmark">
-                        <div class="check-icon">✓</div>
-                    </div>
-                </div>
-                <h2>Registration Complete!</h2>
-                <p>Your form has been successfully submitted.</p>
-                <button type="button" class="btn btn-primary" onclick="location.reload()">Start Over</button>
+            <div class="success-message" id="successMsg">
+                <div class="success-circle">✓</div>
+                <h2>Success!</h2>
+                <p>Your account has been created successfully.</p>
+                <button type="button" class="btn btn-primary" onclick="location.reload()">Create Another</button>
             </div>
         </div>
     </div>
