@@ -1,44 +1,3 @@
-// ========== THEME MANAGEMENT ==========
-class ThemeManager {
-    constructor() {
-        this.dark = localStorage.getItem('theme') === 'dark';
-        this.toggle = document.getElementById('themeToggle');
-        this.init();
-    }
-
-    init() {
-        this.applyTheme();
-        this.toggle.addEventListener('click', () => this.toggleTheme());
-        this.updateIcon();
-    }
-
-    applyTheme() {
-        if (this.dark) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-        this.updateIcon();
-    }
-
-    toggleTheme() {
-        this.dark = !this.dark;
-        localStorage.setItem('theme', this.dark ? 'dark' : 'light');
-        this.applyTheme();
-        toastr.info(
-            this.dark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled',
-            'Theme Changed'
-        );
-    }
-
-    updateIcon() {
-        const icon = document.querySelector('.theme-icon');
-        if (icon) {
-            icon.textContent = this.dark ? '☀️' : '🌙';
-        }
-    }
-}
-
 // Configure Toastr
 toastr.options = {
     closeButton: true,
@@ -364,6 +323,5 @@ class FormValidator {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new ThemeManager();
     new FormValidator();
 });

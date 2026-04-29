@@ -11,18 +11,7 @@
     --error: #ef4444;
     --warning: #f59e0b;
 
-    /* Light Theme */
-    --bg-light: #f8fafc;
-    --border: #e2e8f0;
-    --text: #1f2937;
-    --text-muted: #6b7280;
-    --card-bg: rgba(255, 255, 255, 0.95);
-    --input-bg: rgba(248, 250, 252, 0.8);
-    --review-bg: rgba(248, 250, 252, 0.8);
-}
-
-/* Dark Theme */
-body.dark-mode {
+    /* Dark Theme (Only) */
     --bg-light: #1e293b;
     --border: #334155;
     --text: #f1f5f9;
@@ -40,11 +29,6 @@ body {
     align-items: center;
     padding: 20px;
     overflow-x: hidden;
-    background: #0f172a;
-    transition: background 0.4s ease;
-}
-
-body.dark-mode {
     background: #0f172a;
 }
 
@@ -168,87 +152,73 @@ body.dark-mode {
     }
 }
 
-/* Animated Stars */
+/* 3D Animated Stars */
 .stars {
     position: fixed;
     width: 100%;
     height: 100%;
     z-index: -1;
+    perspective: 1000px;
 }
 
-.stars::before,
+.stars::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(2px 2px at 60px 70px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(1px 1px at 50px 50px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(1px 1px at 130px 80px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(2px 2px at 90px 10px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(1px 1px at 10px 90px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(2px 2px at 120px 120px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(1px 1px at 80px 30px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(2px 2px at 40px 120px, white, rgba(255, 255, 255, 0.8)),
+        radial-gradient(1px 1px at 140px 30px, white, rgba(255, 255, 255, 0.8));
+    background-repeat: repeat;
+    background-size: 200px 150px;
+    background-position: 0 0;
+    animation: stars3D 60s linear infinite;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
 .stars::after {
     content: '';
     position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    box-shadow:
-        100px 100px white, 200px 150px white, 300px 80px white,
-        150px 300px white, 400px 200px white, 250px 400px white,
-        500px 100px white, 350px 250px white, 450px 350px white,
-        600px 150px white, 200px 500px white, 550px 400px white;
-    animation: twinkle 3s ease-in-out infinite;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(1px 1px at 30px 20px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 70px 40px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 100px 80px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 40px 100px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 110px 50px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 60px 120px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 20px 70px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 130px 100px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 80px 110px, white, rgba(255, 255, 255, 0.6)),
+        radial-gradient(1px 1px at 50px 10px, white, rgba(255, 255, 255, 0.6));
+    background-repeat: repeat;
+    background-size: 160px 140px;
+    background-position: 0 0;
+    animation: stars3D 80s linear infinite reverse;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.3));
 }
 
-.stars::after {
-    animation-delay: 1.5s;
-    box-shadow:
-        120px 120px white, 220px 170px white, 320px 100px white,
-        170px 320px white, 420px 220px white, 270px 420px white,
-        520px 120px white, 370px 270px white, 470px 370px white,
-        620px 170px white, 220px 520px white, 570px 420px white;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-/* ============ THEME TOGGLE ============ */
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(99, 102, 241, 0.2);
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 100;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-}
-
-.theme-toggle:hover {
-    background: rgba(99, 102, 241, 0.4);
-    transform: scale(1.1) rotate(20deg);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-}
-
-.theme-toggle:active {
-    transform: scale(0.95) rotate(20deg);
-}
-
-.theme-icon {
-    display: inline-block;
-    transition: transform 0.6s ease;
-}
-
-.theme-toggle:hover .theme-icon {
-    transform: rotate(180deg);
-}
-
-body.dark-mode .theme-icon {
-    content: '☀️';
+@keyframes stars3D {
+    0% {
+        transform: translateZ(0) translateX(0);
+    }
+    50% {
+        transform: translateZ(100px) translateX(-20px);
+    }
+    100% {
+        transform: translateZ(0) translateX(0);
+    }
 }
 
 /* ============ WRAPPER ============ */
