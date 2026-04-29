@@ -10,10 +10,26 @@
     --success: #10b981;
     --error: #ef4444;
     --warning: #f59e0b;
+
+    /* Light Theme */
     --bg-light: #f8fafc;
     --border: #e2e8f0;
     --text: #1f2937;
     --text-muted: #6b7280;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --input-bg: rgba(248, 250, 252, 0.8);
+    --review-bg: rgba(248, 250, 252, 0.8);
+}
+
+/* Dark Theme */
+body.dark-mode {
+    --bg-light: #1e293b;
+    --border: #334155;
+    --text: #f1f5f9;
+    --text-muted: #cbd5e1;
+    --card-bg: rgba(30, 41, 59, 0.95);
+    --input-bg: rgba(15, 23, 42, 0.8);
+    --review-bg: rgba(15, 23, 42, 0.8);
 }
 
 body {
@@ -24,6 +40,11 @@ body {
     align-items: center;
     padding: 20px;
     overflow-x: hidden;
+    background: #0f172a;
+    transition: background 0.4s ease;
+}
+
+body.dark-mode {
     background: #0f172a;
 }
 
@@ -185,6 +206,51 @@ body {
     50% { opacity: 1; }
 }
 
+/* ============ THEME TOGGLE ============ */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.2);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 100;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.theme-toggle:hover {
+    background: rgba(99, 102, 241, 0.4);
+    transform: scale(1.1) rotate(20deg);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95) rotate(20deg);
+}
+
+.theme-icon {
+    display: inline-block;
+    transition: transform 0.6s ease;
+}
+
+.theme-toggle:hover .theme-icon {
+    transform: rotate(180deg);
+}
+
+body.dark-mode .theme-icon {
+    content: '☀️';
+}
+
 /* ============ WRAPPER ============ */
 .wrapper {
     width: 100%;
@@ -194,13 +260,14 @@ body {
 }
 
 .form-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     padding: 40px;
     animation: cardEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: background 0.4s ease, border-color 0.4s ease;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transform-style: preserve-3d;
 }
@@ -336,6 +403,7 @@ body {
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     transform-style: preserve-3d;
+    color: var(--text-muted);
 }
 
 .dot-inner {
@@ -438,9 +506,10 @@ input[type="password"] {
     border-radius: 10px;
     font-size: 14px;
     color: var(--text);
-    background: rgba(248, 250, 252, 0.8);
+    background: var(--input-bg);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-family: inherit;
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 }
 
@@ -567,14 +636,15 @@ input.valid ~ .check-icon {
 
 /* ============ REVIEW BOX ============ */
 .review-box {
-    background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.8));
+    background: var(--review-bg);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 22px;
     margin-bottom: 20px;
-    border: 1px solid rgba(226, 232, 240, 0.5);
+    border: 1px solid var(--border);
     animation: slideInUp 0.6s ease-out;
+    transition: background 0.4s ease, border-color 0.4s ease;
 }
 
 .review-group {
@@ -628,7 +698,7 @@ input.valid ~ .check-icon {
     cursor: pointer;
     margin-top: 20px;
     padding: 12px 15px;
-    background: rgba(248, 250, 252, 0.8);
+    background: var(--input-bg);
     border-radius: 8px;
     border: 1px solid var(--border);
     transition: all 0.3s ease;
@@ -716,10 +786,11 @@ input[type="checkbox"]:checked {
 }
 
 .btn-secondary {
-    background: rgba(248, 250, 252, 0.9);
+    background: var(--bg-light);
     color: var(--text);
     border: 2px solid var(--border);
     flex: 0 0 90px;
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover:not(:disabled) {
