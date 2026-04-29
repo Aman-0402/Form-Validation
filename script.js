@@ -304,8 +304,14 @@ class FormValidator {
         const next = document.getElementById('nextBtn');
         const submit = document.getElementById('submitBtn');
 
-        prev.disabled = this.currentStep === 1;
+        // Hide back button on first step
+        if (this.currentStep === 1) {
+            prev.style.display = 'none';
+        } else {
+            prev.style.display = 'block';
+        }
 
+        // Show submit on last step
         if (this.currentStep === this.totalSteps) {
             next.style.display = 'none';
             submit.style.display = 'block';

@@ -391,7 +391,8 @@ body.dark-mode .theme-icon {
 }
 
 .step-dot {
-    flex: 1;
+    flex: 0 0 50px;
+    width: 50px;
     height: 50px;
     border-radius: 50%;
     background: var(--bg-light);
@@ -728,6 +729,7 @@ input[type="checkbox"]:checked {
     gap: 10px;
     margin-top: 35px;
     animation: slideInUp 0.6s ease-out 0.3s both;
+    align-items: center;
 }
 
 .btn {
@@ -800,7 +802,7 @@ input[type="checkbox"]:checked {
 }
 
 .btn-secondary:disabled {
-    opacity: 0.5;
+    display: none;
     cursor: not-allowed;
 }
 
