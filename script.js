@@ -29,6 +29,7 @@ class FormValidator {
     init() {
         this.attachListeners();
         this.updateProgress();
+        this.updateButtons();
         this.showWelcome();
     }
 
