@@ -1,3 +1,22 @@
+// Configure Toastr
+toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: 300,
+    hideDuration: 1000,
+    timeOut: 5000,
+    extendedTimeOut: 1000,
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+
 class FormValidator {
     constructor() {
         this.form = document.getElementById('validationForm');
@@ -10,6 +29,22 @@ class FormValidator {
     init() {
         this.attachListeners();
         this.updateProgress();
+        this.showWelcome();
+    }
+
+    showWelcome() {
+        setTimeout(() => {
+            Swal.fire({
+                title: '👋 Welcome!',
+                html: 'Let\'s create your account in just 3 steps.',
+                icon: 'info',
+                confirmButtonText: 'Get Started',
+                allowOutsideClick: false,
+                customClass: {
+                    popup: 'swal-custom'
+                }
+            });
+        }, 500);
     }
 
     attachListeners() {
@@ -41,20 +76,20 @@ class FormValidator {
 
         if (input.type === 'email') {
             isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-            error = 'Invalid email address';
+            error = '❌ Invalid email address';
         } else if (input.type === 'tel') {
             isValid = /^[\d\s\-\(\)\+]{10,}$/.test(value.replace(/\D/g, ''));
-            error = 'Invalid phone number';
+            error = '❌ Invalid phone number (min 10 digits)';
         } else if (input.id === 'password') {
             isValid = this.isPasswordValid(value);
-            error = 'Password must be 8+ chars with uppercase, lowercase, number, special char';
+            error = '❌ Password must be 8+ chars with uppercase, lowercase, number & special char';
         } else if (input.id === 'confirm') {
             const pwd = document.getElementById('password').value;
             isValid = value === pwd && value.length > 0;
-            error = 'Passwords do not match';
+            error = '❌ Passwords do not match';
         } else {
             isValid = value.length > 0;
-            error = 'This field is required';
+            error = '❌ This field is required';
         }
 
         this.updateFieldUI(input, isValid, error);
@@ -70,7 +105,8 @@ class FormValidator {
     }
 
     updateFieldUI(input, isValid, error) {
-        const errorSpan = input.parentElement.querySelector('.error-msg') || input.nextElementSibling;
+        const errorSpan = input.parentElement.querySelector('.error-msg') ||
+                         input.nextElementSibling;
 
         if (isValid) {
             input.classList.remove('invalid');
@@ -113,12 +149,10 @@ class FormValidator {
             color = '#10b981';
         }
 
-        const barEl = document.querySelector('.strength-bar');
         const width = (strength / 5) * 100;
-        barEl.style.setProperty('--bar-width', width + '%');
 
         const style = document.createElement('style');
-        style.innerHTML = `.strength-bar::after { width: ${width}% !important; background: ${color} !important; }`;
+        style.innerHTML = `.strength-bar::after { width: ${width}% !important; background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981) !important; }`;
         document.head.appendChild(style);
 
         if (text) {
@@ -150,7 +184,7 @@ class FormValidator {
         if (this.currentStep === 3) {
             const agree = document.getElementById('agree');
             if (!agree.checked) {
-                alert('Please agree to Terms & Conditions');
+                toastr.error('Please agree to Terms & Conditions', 'Required Field Missing');
                 valid = false;
             }
         }
@@ -178,6 +212,10 @@ class FormValidator {
         this.updateButtons();
 
         if (n === 3) this.populateReview();
+
+        // Show toast notification
+        const stepNames = ['Account Setup', 'Personal Details', 'Review & Confirm'];
+        toastr.info(`📝 ${stepNames[n - 1]}`, 'Step ' + n);
     }
 
     nextStep() {
@@ -186,6 +224,8 @@ class FormValidator {
             if (this.currentStep < this.totalSteps) {
                 this.goToStep(this.currentStep + 1);
             }
+        } else {
+            toastr.warning('Please fill all required fields correctly', 'Validation Error');
         }
     }
 
@@ -238,10 +278,40 @@ class FormValidator {
         e.preventDefault();
         if (this.isStepValid()) {
             this.saveStep();
+
+            // Show success SweetAlert
+            Swal.fire({
+                title: '🎉 Success!',
+                html: `
+                    <div style="text-align: left;">
+                        <p><strong>✓ Account Created Successfully!</strong></p>
+                        <p style="margin-top: 15px;">
+                            <strong>Email:</strong> ${this.data.email}<br>
+                            <strong>Name:</strong> ${this.data.firstName} ${this.data.lastName}<br>
+                            <strong>Phone:</strong> ${this.data.phone}
+                        </p>
+                    </div>
+                `,
+                icon: 'success',
+                confirmButtonText: 'Create Another Account',
+                allowOutsideClick: false,
+                customClass: {
+                    popup: 'swal-custom'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
+
+            // Log data
             console.log('Form submitted:', this.data);
 
+            // Hide form
             this.form.style.display = 'none';
-            document.getElementById('successMsg').classList.add('show');
+
+            // Show success toast
+            toastr.success('Your account has been registered successfully!', '✓ Registration Complete');
         }
     }
 }
