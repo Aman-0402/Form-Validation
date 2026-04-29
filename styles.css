@@ -41,114 +41,146 @@ body {
     height: 100%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     z-index: -2;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 15s ease infinite, rotateBackground 30s linear infinite;
+    overflow: hidden;
 }
 
 @keyframes gradientShift {
     0% {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     }
+    25% {
+        background: linear-gradient(45deg, #764ba2 0%, #f093fb 50%, #48dbfb 100%);
+    }
     50% {
-        background: linear-gradient(135deg, #764ba2 0%, #f093fb 50%, #667eea 100%);
+        background: linear-gradient(225deg, #f093fb 0%, #48dbfb 50%, #667eea 100%);
+    }
+    75% {
+        background: linear-gradient(315deg, #48dbfb 0%, #667eea 50%, #764ba2 100%);
     }
     100% {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     }
 }
 
-/* Animated Bubbles */
+@keyframes rotateBackground {
+    from {
+        filter: hue-rotate(0deg);
+    }
+    to {
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Animated Bubbles with 3D Effects */
 .bubble {
     position: fixed;
     border-radius: 50%;
-    opacity: 0.3;
+    opacity: 0.4;
     z-index: -1;
-    filter: blur(40px);
+    filter: blur(50px) drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    perspective: 1000px;
 }
 
 .bubble-1 {
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 107, 107, 0.5);
-    top: -50px;
-    left: -50px;
-    animation: float 15s ease-in-out infinite;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 107, 107, 0.6);
+    top: -100px;
+    left: -100px;
+    animation: float3D 18s ease-in-out infinite;
 }
 
 .bubble-2 {
-    width: 150px;
-    height: 150px;
-    background: rgba(106, 90, 205, 0.5);
-    top: 20%;
-    right: -50px;
-    animation: float 18s ease-in-out infinite reverse;
+    width: 180px;
+    height: 180px;
+    background: rgba(106, 90, 205, 0.6);
+    top: 15%;
+    right: -80px;
+    animation: float3D 20s ease-in-out infinite reverse;
 }
 
 .bubble-3 {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     background: rgba(72, 219, 251, 0.5);
-    top: 50%;
-    left: 10%;
-    animation: float 20s ease-in-out infinite;
+    top: 45%;
+    left: 5%;
+    animation: float3D 22s ease-in-out infinite;
 }
 
 .bubble-4 {
-    width: 120px;
-    height: 120px;
-    background: rgba(240, 147, 251, 0.5);
-    bottom: 20%;
-    right: 10%;
-    animation: float 17s ease-in-out infinite reverse;
+    width: 150px;
+    height: 150px;
+    background: rgba(240, 147, 251, 0.6);
+    bottom: 15%;
+    right: 5%;
+    animation: float3D 19s ease-in-out infinite reverse;
 }
 
 .bubble-5 {
-    width: 160px;
-    height: 160px;
-    background: rgba(99, 102, 241, 0.5);
-    bottom: -50px;
-    left: 30%;
-    animation: float 19s ease-in-out infinite;
+    width: 200px;
+    height: 200px;
+    background: rgba(99, 102, 241, 0.6);
+    bottom: -60px;
+    left: 25%;
+    animation: float3D 21s ease-in-out infinite;
 }
 
 .bubble-6 {
-    width: 140px;
-    height: 140px;
+    width: 170px;
+    height: 170px;
     background: rgba(168, 85, 247, 0.5);
-    top: 30%;
+    top: 25%;
     left: 50%;
-    animation: float 16s ease-in-out infinite reverse;
+    animation: float3D 17s ease-in-out infinite reverse;
 }
 
 .bubble-7 {
-    width: 170px;
-    height: 170px;
+    width: 210px;
+    height: 210px;
     background: rgba(34, 197, 94, 0.5);
-    bottom: 10%;
-    right: 20%;
-    animation: float 21s ease-in-out infinite;
+    bottom: 5%;
+    right: 15%;
+    animation: float3D 23s ease-in-out infinite;
 }
 
 .bubble-8 {
-    width: 130px;
-    height: 130px;
-    background: rgba(239, 68, 68, 0.5);
-    top: 60%;
-    right: 5%;
-    animation: float 18s ease-in-out infinite reverse;
+    width: 160px;
+    height: 160px;
+    background: rgba(239, 68, 68, 0.6);
+    top: 55%;
+    right: 10%;
+    animation: float3D 20s ease-in-out infinite reverse;
 }
 
 @keyframes float {
     0%, 100% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: translate(0, 0) rotate(0deg) scale(1);
     }
     25% {
-        transform: translate(30px, -50px) rotate(90deg);
+        transform: translate(30px, -50px) rotate(90deg) scale(1.1);
     }
     50% {
-        transform: translate(-30px, 50px) rotate(180deg);
+        transform: translate(-30px, 50px) rotate(180deg) scale(1);
     }
     75% {
-        transform: translate(50px, 30px) rotate(270deg);
+        transform: translate(50px, 30px) rotate(270deg) scale(1.1);
+    }
+}
+
+@keyframes float3D {
+    0%, 100% {
+        transform: translate(0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    25% {
+        transform: translate(40px, -60px) rotateX(45deg) rotateY(45deg) rotateZ(90deg);
+    }
+    50% {
+        transform: translate(-40px, 60px) rotateX(90deg) rotateY(90deg) rotateZ(180deg);
+    }
+    75% {
+        transform: translate(60px, 40px) rotateX(45deg) rotateY(45deg) rotateZ(270deg);
     }
 }
 
@@ -211,13 +243,24 @@ body {
 
 @keyframes stars3D {
     0% {
-        transform: translateZ(0) translateX(0);
+        transform: translateZ(0) translateX(0) rotateZ(0deg);
+        filter: brightness(0.8);
+    }
+    25% {
+        transform: translateZ(80px) translateX(-15px) rotateZ(90deg);
+        filter: brightness(1.2);
     }
     50% {
-        transform: translateZ(100px) translateX(-20px);
+        transform: translateZ(150px) translateX(-30px) rotateZ(180deg);
+        filter: brightness(1.5);
+    }
+    75% {
+        transform: translateZ(80px) translateX(-15px) rotateZ(270deg);
+        filter: brightness(1.2);
     }
     100% {
-        transform: translateZ(0) translateX(0);
+        transform: translateZ(0) translateX(0) rotateZ(360deg);
+        filter: brightness(0.8);
     }
 }
 
